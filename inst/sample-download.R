@@ -8,7 +8,7 @@ library(ggmagic)
 ui <- fluidPage(
   h3("Text"),
   textAreaInput("text", "Text", rows = 5),
-  downloadTextUI("dropdown_text", dropdownLabel = "Dropdown", formats = c("txt", "docx", "html", "link"), display = "dropdown"),
+  downloadTextUI("dropdown_text", dropdownLabel = "Dropdown", formats = c("txt", "docx", "html"), display = "dropdown"),
   downloadTextUI("download_text", "Download", c("txt", "docx", "html", "link")),
   br(),
   h3("Tables"),
@@ -53,6 +53,12 @@ server <- function(input, output, session) {
   callModule(downloadHtmlwidget, "download_html", widget = hg, formats = c("html", "link"))
   callModule(downloadHtmlwidget, "dropdown_html", widget = hg, formats = c("html", "link"))
 
+
+  observeEvent(input$`f-save`, {
+    print("ee")
+  })
+
 }
+
 
 shinyApp(ui, server)

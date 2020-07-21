@@ -8,6 +8,7 @@ downloadTextUI <- function(id, text = "Download", formats = NULL, class = NULL, 
 
   formats_id <- ns(paste0("DownloadTxt", formats))
   formats_lb <- paste0(text, " ", toupper(formats))
+  names(formats_id) <- formats_lb
   choices_type <- rep("download", length(formats_id))
   w0 <- which(formats %in% "link")
   if (sum(w0) > 0) {
@@ -50,7 +51,8 @@ downloadText <- function(input, output, session, text = NULL, formats, name = "t
   lapply(txt_formats, function(z) {
     if (z == "link") {
       observeEvent(input$DownloadTxtlink, {
-        showModal(modalDialog())
+        showModal(modalDialog(getLinkUI(ns("link")), easyClose = TRUE, footer = NULL, size = "l"))
+        getLinkServer("link")
       })
     } else {
       buttonId <- ns(paste0("DownloadTxt", z))

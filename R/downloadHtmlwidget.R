@@ -9,6 +9,7 @@ downloadHtmlwidgetUI <- function(id, text = "Download", formats = NULL, class = 
 
   formats_id <- ns(paste0("DownloadWidget", formats))
   formats_lb <- text
+  names(formats_id) <- formats_lb
   choices_type <- rep("download", length(formats_id))
   w0 <- which(formats %in% "link")
   if (sum(w0) > 0) {
@@ -48,7 +49,8 @@ downloadHtmlwidget <- function(input, output, session, widget = NULL, formats, n
   lapply(formats, function(z) {
     if (z == "link") {
       observeEvent(input$DownloadWidgetlink, {
-        showModal(modalDialog())
+        showModal(modalDialog(getLinkUI(ns("link")), easyClose = TRUE, footer = NULL, size = "l"))
+        getLinkServer("link")
       })
     } else {
       buttonId <- ns("downloadWidget")

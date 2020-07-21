@@ -8,6 +8,7 @@ downloadTableUI <- function(id, text = "Download", formats = NULL, class = NULL,
 
   formats_id <- ns(paste0("DownloadTbl", formats))
   formats_lb <- paste0(text, " ", toupper(formats))
+  names(formats_id) <- formats_lb
   choices_type <- rep("download", length(formats_id))
   w0 <- which(formats %in% "link")
   if (sum(w0) > 0) {
@@ -50,7 +51,8 @@ downloadTable <- function(input, output, session, table = NULL, formats, name = 
   lapply(tbl_formats, function(z) {
     if (z == "link") {
       observeEvent(input$DownloadTbllink, {
-        showModal(modalDialog())
+        showModal(modalDialog(getLinkUI(ns("link")), easyClose = TRUE, footer = NULL, size = "l"))
+        getLinkServer("link")
       })
     } else {
       buttonId <- ns(paste0("DownloadTbl", z))
